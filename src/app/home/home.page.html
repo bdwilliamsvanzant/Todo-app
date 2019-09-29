@@ -1,14 +1,33 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>
-      Ionic Blank
+  <ion-toolbar color='primary'>
+    <ion-title >
+      To-do List
     </ion-title>
+    <ion-button solid color='secondary' (click)="logout()" slot="end">Logout</ion-button>
   </ion-toolbar>
 </ion-header>
-
-<ion-content>
-  <div class="ion-padding">
-    The world is your oyster.
-    <p>If you get lost, the <a target="_blank" rel="noopener" href="https://ionicframework.com/docs/">docs</a> will be your guide.</p>
+<ion-content class="ion-padding">
+  <ion-item >
+    <ion-input  #taskInput type="text" [(ngModel)]="taskName" placeholder="Enter task"></ion-input>
+      <div class="item-note" slot="end">
+        <ion-button color='secondary' (click)="addTask()">
+          <ion-icon name="add"></ion-icon>
+        </ion-button>
+      </div>
+    </ion-item>
+    <div class="ion-padding">
+      <ion-list>
+        <ion-item *ngFor="let todo of fireStoreTaskList | async; let i = index ">
+          {{todo.taskName}}
+          <div class="item-note" slot="end">
+          <ion-button clear (click)="updateTask(todo.id)">
+              <ion-icon name="create"></ion-icon>
+          </ion-button>
+          <ion-button clear color='danger' (click)="deleteTask(todo.id)" slot="end">
+            <ion-icon name="trash"></ion-icon>
+          </ion-button>
+        </div>
+      </ion-item>
+    </ion-list>
   </div>
 </ion-content>
